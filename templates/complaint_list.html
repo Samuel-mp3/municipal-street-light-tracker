@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}Complaint Register{% endblock %}
+{% block header_title %}Municipal Complaint Master Register{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-dark text-white py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="mb-2 mb-md-0">
+            <h5 class="fw-bold mb-0"><i class="fa-solid fa-table-list me-2 text-warning"></i>Street Light Fault Register</h5>
+            <small class="text-white-50">Showing {{ complaints|length }} of {{ total_records }} total matching records</small>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ url_for('complaints.export_csv') }}" class="btn btn-outline-light btn-sm">
+                <i class="fa-solid fa-file-csv me-1 text-success"></i> Export CSV
+            </a>
+            <a href="{{ url_for('complaints.register_complaint') }}" class="btn btn-success btn-sm fw-bold">
+                <i class="fa-solid fa-plus me-1"></i> Register New
+            </a>
+        </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="card-body bg-light border-bottom">
+        <form method="GET" action="{{ url_for('complaints.list_complaints') }}" class="row g-2 align-items-center">
+            <!-- Search Text -->
+            <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" class="form-control" name="search" placeholder="Search Fault ID, Pole, Street..." value="{{ search }}">
+                </div>
+            </div>
+
+            <!-- Filter Ward -->
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" name="ward" onchange="this.form.submit()">
+                    <option value="">All Wards</option>
+                    {% for w in wards %}
+                    <option value="{{ w }}" {% if selected_ward == w %}selected{% endif %}>{{ w }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter Fault Type -->
+            <div class="col-md-3">
+                <select class="form-select form-select-sm" name="fault_type" onchange="this.form.submit()">
+                    <option value="">All Fault Categories</option>
+                    {% for ft in fault_types %}
+                    <option value="{{ ft }}" {% if selected_fault == ft %}selected{% endif %}>{{ ft }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter Status -->
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" name="status" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    {% for st in statuses %}
+                    <option value="{{ st }}" {% if selected_status == st %}selected{% endif %}>{{ st }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit / Clear -->
+            <div class="col-md-2 d-flex gap-1">
+                <button type="submit" class="btn btn-primary btn-sm w-100"><i class="fa-solid fa-filter me-1"></i>Filter</button>
+                {% if search or selected_ward or selected_fault or selected_status %}
+                <a href="{{ url_for('complaints.list_complaints') }}" class="btn btn-outline-secondary btn-sm" title="Clear Filters">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Datatable -->
+    <div class="card-body p-0">
+        {% if complaints %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>
+                            <a href="{{ url_for('complaints.list_complaints', sort='fault_id', order='asc' if sort_by=='fault_id' and order=='desc' else 'desc', search=search, ward=selected_ward, fault_type=selected_fault, status=selected_status) }}" class="text-white text-decoration-none">
+                                Fault ID {% if sort_by == 'fault_id' %}<i class="fa-solid fa-sort-{{ 'up' if order=='asc' else 'down' }}"></i>{% endif %}
+                            </a>
+                        </th>
+                        <th>Pole ID</th>
+                        <th>Location (Ward & Street)</th>
+                        <th>Reported Date</th>
+                        <th>Fault Category</th>
+                        <th>Status</th>
+                        <th>Pending Days</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in complaints %}
+                    <tr>
+                        <td class="fw-bold font-monospace text-primary">{{ c.fault_id }}</td>
+                        <td><span class="badge bg-secondary font-monospace">{{ c.pole_id }}</span></td>
+                        <td>
+                            <div class="fw-semibold text-dark">{{ c.street }}</div>
+                            <small class="text-muted"><i class="fa-solid fa-map-pin me-1"></i>{{ c.ward }}</small>
+                        </td>
+                        <td><small class="text-muted"><i class="fa-solid fa-calendar me-1"></i>{{ c.reported_date }}</small></td>
+                        <td>
+                            {% if c.fault_type == 'Transformer Failure' or c.fault_type == 'Pole Structural Damage' %}
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle">{{ c.fault_type }}</span>
+                            {% elif c.fault_type == 'Wiring Damage' or c.fault_type == 'Power Surge' %}
+                                <span class="badge bg-warning-subtle text-dark border border-warning-subtle">{{ c.fault_type }}</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark border">{{ c.fault_type }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.status == 'Repaired' %}
+                                <span class="badge bg-success"><i class="fa-solid fa-circle-check me-1"></i>Repaired</span>
+                            {% elif c.status == 'In Progress' %}
+                                <span class="badge bg-info text-dark"><i class="fa-solid fa-spinner me-1"></i>In Progress</span>
+                            {% elif c.status == 'Rejected' %}
+                                <span class="badge bg-secondary">Rejected</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark"><i class="fa-solid fa-clock me-1"></i>Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.status == 'Repaired' %}
+                                <span class="badge bg-light text-muted border">Completed</span>
+                            {% else %}
+                                <span class="badge {% if c.pending_days > 14 %}bg-danger{% elif c.pending_days > 7 %}bg-warning text-dark{% else %}bg-info text-dark{% endif %}">
+                                    {{ c.pending_days }} Days
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ url_for('complaints.complaint_details', complaint_id=c.id) }}" class="btn btn-outline-dark" title="View Details">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a href="{{ url_for('complaints.edit_complaint', complaint_id=c.id) }}" class="btn btn-outline-primary" title="Edit Complaint">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('complaints.delete_complaint', complaint_id=c.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete complaint {{ c.fault_id }}?');">
+                                    <button type="submit" class="btn btn-outline-danger" title="Delete Complaint">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="fa-solid fa-folder-open fa-3x mb-3 text-secondary"></i>
+            <h5>No complaints found</h5>
+            <p>Try clearing filters or search query to see records.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination Footer -->
+    {% if total_pages > 1 %}
+    <div class="card-footer bg-white py-3 border-top d-flex justify-content-between align-items-center">
+        <small class="text-muted">Page {{ page }} of {{ total_pages }}</small>
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('complaints.list_complaints', page=page-1, search=search, ward=selected_ward, fault_type=selected_fault, status=selected_status, sort=sort_by, order=order) }}">Previous</a>
+            </li>
+            {% for p in range(1, total_pages + 1) %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('complaints.list_complaints', page=p, search=search, ward=selected_ward, fault_type=selected_fault, status=selected_status, sort=sort_by, order=order) }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('complaints.list_complaints', page=page+1, search=search, ward=selected_ward, fault_type=selected_fault, status=selected_status, sort=sort_by, order=order) }}">Next</a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

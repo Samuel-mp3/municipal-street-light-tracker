@@ -1,0 +1,107 @@
+fault_id,pole_id,ward,street,reported_date,fault_type,status,repaired_date,need_attention
+FLT-2026-1001,POL-101,Ward 1,MG Road,2026-06-01,Bulb Replacement,Repaired,2026-06-03,0
+FLT-2026-1002,POL-102,Ward 1,M.G. Road,2026-06-02,Wiring Damage,Repaired,2026-06-10,1
+FLT-2026-1003,POL-103,Ward 2,Mahatma Gandhi Road,2026-06-03,Transformer Failure,Pending,,1
+FLT-2026-1004,POL-104,Ward 2,Nehru Street,2026-06-04,Pole Structural Damage,In Progress,,1
+FLT-2026-1005,POL-104,Ward 2,Nehru St,2026-06-05,Pole Structural Damage,Pending,,1
+FLT-2026-1006,POL-104,Ward 2,Nehru St.,2026-06-06,Switch Failure,Pending,,1
+FLT-2026-1007,POL-105,Ward 3,Station Road,2026-06-07,Bulb Replacement,Repaired,2026-06-08,0
+FLT-2026-1008,POL-106,Ward 3,St. Road,2026-06-08,Power Surge,Repaired,2026-06-12,0
+FLT-2026-1009,POL-107,Ward 4,Bypass Road,2026-06-09,Wiring Damage,In Progress,,1
+FLT-2026-1010,POL-108,Ward 4,Bypass Rd,2026-06-10,Bulb Replacement,Repaired,2026-06-11,0
+FLT-2026-1011,POL-109,Ward 5,Market Yard,2026-06-11,Transformer Failure,Repaired,2026-06-25,1
+FLT-2026-1012,POL-110,Ward 5,Market Street,2026-06-12,Switch Failure,Pending,,0
+FLT-2026-1013,POL-111,Ward 6,Church Street,2026-06-13,Bulb Replacement,Repaired,2026-06-14,0
+FLT-2026-1014,POL-112,Ward 6,Church St,2026-06-14,Power Surge,Repaired,2026-06-16,0
+FLT-2026-1015,POL-113,Ward 7,Temple Road,2026-06-15,Pole Structural Damage,Pending,,1
+FLT-2026-1016,POL-114,Ward 7,Temple Street,2026-06-16,Wiring Damage,In Progress,,1
+FLT-2026-1017,POL-115,Ward 8,Industrial Area,2026-06-17,Transformer Failure,Pending,,1
+FLT-2026-1018,POL-116,Ward 8,Ind. Area,2026-06-18,Bulb Replacement,Repaired,2026-06-19,0
+FLT-2026-1019,POL-117,Ward 9,Anna Salai,2026-06-19,Switch Failure,Repaired,2026-06-21,0
+FLT-2026-1020,POL-118,Ward 9,Anna Square,2026-06-20,Wiring Damage,Repaired,2026-06-28,1
+FLT-2026-1021,POL-119,Ward 10,Lake View Rd,2026-06-21,Bulb Replacement,Pending,,0
+FLT-2026-1022,POL-120,Ward 10,Lake View Road,2026-06-22,Pole Structural Damage,In Progress,,1
+FLT-2026-1023,POL-101,Ward 1,MG Road,2026-06-23,Switch Failure,Repaired,2026-06-24,0
+FLT-2026-1024,POL-102,Ward 1,M.G. Road,2026-06-24,Transformer Failure,Pending,,1
+FLT-2026-1025,POL-121,Ward 1,Park Avenue,2026-06-25,Bulb Replacement,Repaired,2026-06-26,0
+FLT-2026-1026,POL-122,Ward 2,Green Street,2026-06-26,Wiring Damage,Repaired,2026-06-29,0
+FLT-2026-1027,POL-123,Ward 3,Hospital Road,2026-06-27,Pole Structural Damage,Pending,,1
+FLT-2026-1028,POL-124,Ward 4,College Lane,2026-06-28,Power Surge,Repaired,2026-06-30,0
+FLT-2026-1029,POL-125,Ward 5,Ring Road,2026-06-29,Bulb Replacement,Repaired,2026-07-01,0
+FLT-2026-1030,POL-126,Ward 6,Port Road,2026-06-30,Transformer Failure,In Progress,,1
+FLT-2026-1031,POL-127,Ward 7,Beach Road,2026-07-01,Wiring Damage,Pending,,1
+FLT-2026-1032,POL-128,Ward 8,School Lane,2026-07-01,Bulb Replacement,Repaired,2026-07-02,0
+FLT-2026-1033,POL-129,Ward 9,Main Bazaar,2026-07-02,Switch Failure,Pending,,0
+FLT-2026-1034,POL-130,Ward 10,Railway Feeder Rd,2026-07-02,Power Surge,Repaired,2026-07-04,0
+FLT-2026-1035,POL-103,Ward 2,Mahatma Gandhi Road,2026-07-03,Wiring Damage,Pending,,1
+FLT-2026-1036,POL-131,Ward 1,Sunset Boulevard,2026-07-03,Bulb Replacement,Repaired,2026-07-04,0
+FLT-2026-1037,POL-132,Ward 2,Cross Street 1,2026-07-04,Transformer Failure,Pending,,1
+FLT-2026-1038,POL-133,Ward 3,Cross Street 2,2026-07-04,Pole Structural Damage,In Progress,,1
+FLT-2026-1039,POL-134,Ward 4,North Street,2026-07-05,Switch Failure,Repaired,2026-07-06,0
+FLT-2026-1040,POL-135,Ward 5,South Street,2026-07-05,Wiring Damage,Repaired,2026-07-12,1
+FLT-2026-1041,POL-136,Ward 6,East Avenue,2026-07-06,Bulb Replacement,Repaired,2026-07-07,0
+FLT-2026-1042,POL-137,Ward 7,West Lane,2026-07-06,Power Surge,Pending,,0
+FLT-2026-1043,POL-138,Ward 8,Central Circle,2026-07-07,Transformer Failure,In Progress,,1
+FLT-2026-1044,POL-139,Ward 9,Civil Lines,2026-07-07,Pole Structural Damage,Pending,,1
+FLT-2026-1045,POL-140,Ward 10,Subway Road,2026-07-08,Bulb Replacement,Repaired,2026-07-09,0
+FLT-2026-1046,POL-141,Ward 1,High Street,2026-07-08,Switch Failure,Repaired,2026-07-10,0
+FLT-2026-1047,POL-142,Ward 2,River Bank Rd,2026-07-09,Wiring Damage,Pending,,1
+FLT-2026-1048,POL-143,Ward 3,Hill View St,2026-07-09,Bulb Replacement,Repaired,2026-07-10,0
+FLT-2026-1049,POL-144,Ward 4,Factory Rd,2026-07-10,Transformer Failure,Pending,,1
+FLT-2026-1050,POL-145,Ward 5,Mill Street,2026-07-10,Power Surge,Repaired,2026-07-11,0
+FLT-2026-1051,POL-146,Ward 6,Garden Alley,2026-07-11,Pole Structural Damage,In Progress,,1
+FLT-2026-1052,POL-147,Ward 7,Ocean Drive,2026-07-11,Bulb Replacement,Repaired,2026-07-12,0
+FLT-2026-1053,POL-148,Ward 8,Valley Street,2026-07-12,Switch Failure,Pending,,0
+FLT-2026-1054,POL-149,Ward 9,Ridge Road,2026-07-12,Wiring Damage,Repaired,2026-07-19,1
+FLT-2026-1055,POL-150,Ward 10,Forest Lane,2026-07-13,Bulb Replacement,Repaired,2026-07-14,0
+FLT-2026-1056,POL-104,Ward 2,Nehru Street,2026-07-13,Transformer Failure,Pending,,1
+FLT-2026-1057,POL-151,Ward 1,MG Road,2026-07-14,Power Surge,Repaired,2026-07-15,0
+FLT-2026-1058,POL-152,Ward 2,Mahatma Gandhi Rd,2026-07-14,Bulb Replacement,Repaired,2026-07-15,0
+FLT-2026-1059,POL-153,Ward 3,Station Rd,2026-07-15,Pole Structural Damage,Pending,,1
+FLT-2026-1060,POL-154,Ward 4,Bypass Road,2026-07-15,Wiring Damage,In Progress,,1
+FLT-2026-1061,POL-155,Ward 5,Market Street,2026-07-16,Switch Failure,Repaired,2026-07-17,0
+FLT-2026-1062,POL-156,Ward 6,Church St,2026-07-16,Bulb Replacement,Repaired,2026-07-17,0
+FLT-2026-1063,POL-157,Ward 7,Temple Road,2026-07-17,Transformer Failure,Pending,,1
+FLT-2026-1064,POL-158,Ward 8,Industrial Area,2026-07-17,Wiring Damage,Repaired,2026-07-24,1
+FLT-2026-1065,POL-159,Ward 9,Anna Salai,2026-07-18,Bulb Replacement,Pending,,0
+FLT-2026-1066,POL-160,Ward 10,Lake View Road,2026-07-18,Power Surge,Repaired,2026-07-19,0
+FLT-2026-1067,POL-161,Ward 1,Park Ave,2026-07-19,Switch Failure,In Progress,,0
+FLT-2026-1068,POL-162,Ward 2,Green St,2026-07-19,Pole Structural Damage,Pending,,1
+FLT-2026-1069,POL-163,Ward 3,Hospital Rd,2026-07-20,Wiring Damage,Pending,,1
+FLT-2026-1070,POL-164,Ward 4,College Lane,2026-07-20,Bulb Replacement,Repaired,2026-07-21,0
+FLT-2026-1071,POL-165,Ward 5,Ring Rd,2026-07-21,Transformer Failure,Pending,,1
+FLT-2026-1072,POL-166,Ward 6,Port Road,2026-07-21,Power Surge,Repaired,2026-07-22,0
+FLT-2026-1073,POL-167,Ward 7,Beach Rd,2026-07-22,Bulb Replacement,Pending,,0
+FLT-2026-1074,POL-168,Ward 8,School Lane,2026-07-22,Switch Failure,Repaired,2026-07-23,0
+FLT-2026-1075,POL-169,Ward 9,Main Bazaar,2026-07-23,Pole Structural Damage,In Progress,,1
+FLT-2026-1076,POL-170,Ward 10,Railway Feeder,2026-07-23,Wiring Damage,Pending,,1
+FLT-2026-1077,POL-171,Ward 1,Sunset Blvd,2026-07-24,Bulb Replacement,Pending,,0
+FLT-2026-1078,POL-172,Ward 2,Cross St 1,2026-07-24,Transformer Failure,Pending,,1
+FLT-2026-1079,POL-173,Ward 3,Cross St 2,2026-07-24,Power Surge,Pending,,0
+FLT-2026-1080,POL-174,Ward 4,North St,2026-07-24,Wiring Damage,Pending,,1
+FLT-2026-1081,POL-175,Ward 5,South St,2026-06-05,Bulb Replacement,Repaired,2026-06-06,0
+FLT-2026-1082,POL-176,Ward 6,East Ave,2026-06-08,Switch Failure,Repaired,2026-06-09,0
+FLT-2026-1083,POL-177,Ward 7,West Lane,2026-06-12,Transformer Failure,Repaired,2026-06-22,1
+FLT-2026-1084,POL-178,Ward 8,Central Circle,2026-06-15,Pole Structural Damage,Repaired,2026-06-25,1
+FLT-2026-1085,POL-179,Ward 9,Civil Lines,2026-06-18,Bulb Replacement,Repaired,2026-06-19,0
+FLT-2026-1086,POL-180,Ward 10,Subway Road,2026-06-22,Wiring Damage,Repaired,2026-06-30,1
+FLT-2026-1087,POL-181,Ward 1,High Street,2026-06-25,Power Surge,Repaired,2026-06-26,0
+FLT-2026-1088,POL-182,Ward 2,River Bank Rd,2026-06-28,Bulb Replacement,Repaired,2026-06-29,0
+FLT-2026-1089,POL-183,Ward 3,Hill View St,2026-07-01,Transformer Failure,Repaired,2026-07-10,1
+FLT-2026-1090,POL-184,Ward 4,Factory Rd,2026-07-03,Switch Failure,Repaired,2026-07-04,0
+FLT-2026-1091,POL-185,Ward 5,Mill Street,2026-07-05,Pole Structural Damage,Repaired,2026-07-15,1
+FLT-2026-1092,POL-186,Ward 6,Garden Alley,2026-07-07,Bulb Replacement,Repaired,2026-07-08,0
+FLT-2026-1093,POL-187,Ward 7,Ocean Drive,2026-07-09,Wiring Damage,Repaired,2026-07-18,1
+FLT-2026-1094,POL-188,Ward 8,Valley Street,2026-07-11,Power Surge,Repaired,2026-07-12,0
+FLT-2026-1095,POL-189,Ward 9,Ridge Road,2026-07-13,Transformer Failure,Repaired,2026-07-22,1
+FLT-2026-1096,POL-190,Ward 10,Forest Lane,2026-07-15,Bulb Replacement,Repaired,2026-07-16,0
+FLT-2026-1097,POL-191,Ward 1,MG Road,2026-07-16,Switch Failure,Repaired,2026-07-17,0
+FLT-2026-1098,POL-192,Ward 2,Mahatma Gandhi Rd,2026-07-17,Wiring Damage,Repaired,2026-07-25,1
+FLT-2026-1099,POL-193,Ward 3,Station Rd,2026-07-18,Bulb Replacement,Repaired,2026-07-19,0
+FLT-2026-1100,POL-194,Ward 4,Bypass Road,2026-07-19,Pole Structural Damage,Repaired,2026-07-24,1
+FLT-2026-1101,POL-195,Ward 5,Market Street,2026-07-20,Transformer Failure,Pending,,1
+FLT-2026-1102,POL-196,Ward 6,Church St,2026-07-21,Power Surge,Pending,,0
+FLT-2026-1103,POL-197,Ward 7,Temple Road,2026-07-22,Bulb Replacement,Pending,,0
+FLT-2026-1104,POL-198,Ward 8,Industrial Area,2026-07-23,Wiring Damage,Pending,,1
+FLT-2026-1105,POL-199,Ward 9,Anna Salai,2026-07-23,Switch Failure,Pending,,0
+FLT-2026-1106,POL-200,Ward 10,Lake View Road,2026-07-24,Pole Structural Damage,Pending,,1

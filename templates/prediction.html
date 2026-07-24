@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}ML Delay Risk Predictor{% endblock %}
+{% block header_title %}Machine Learning Predictive Analytics{% endblock %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+    <!-- Form Input Column -->
+    <div class="col-lg-5">
+        <div class="card shadow border-0 rounded-3 h-100">
+            <div class="card-header bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-brain me-2 text-primary"></i>Predict Fault Severity Risk
+                </h5>
+                <span class="badge bg-primary">scikit-learn ML</span>
+            </div>
+
+            <div class="card-body p-4">
+                <p class="text-muted small mb-4">
+                    Evaluates likelihood of severe delay or structural hazard using historical ward trends and fault patterns. Uses only zero-leakage report-time features.
+                </p>
+
+                <form method="POST" action="{{ url_for('prediction.predict') }}">
+                    <div class="mb-3">
+                        <label for="ward" class="form-label fw-semibold">Ward Location</label>
+                        <select class="form-select" id="ward" name="ward" required>
+                            {% for w in wards %}
+                            <option value="{{ w }}" {% if form_data and form_data.ward == w %}selected{% endif %}>{{ w }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fault_type" class="form-label fw-semibold">Fault Category</label>
+                        <select class="form-select" id="fault_type" name="fault_type" required>
+                            {% for ft in fault_types %}
+                            <option value="{{ ft }}" {% if form_data and form_data.fault_type == ft %}selected{% endif %}>{{ ft }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pole_id" class="form-label fw-semibold">Pole ID</label>
+                        <input type="text" class="form-control" id="pole_id" name="pole_id" placeholder="e.g. POL-104" value="{{ form_data.pole_id if form_data else 'POL-104' }}" required>
+                        <small class="form-text text-muted">Checks historical repeat report count for this pole tag.</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="reported_date" class="form-label fw-semibold">Reported Date</label>
+                        <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ form_data.reported_date if form_data else today_str }}" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Calculate ML Prediction
+                    </button>
+                </form>
+            </div>
+
+            <div class="card-footer bg-light p-3 border-top">
+                <div class="d-flex align-items-center justify-content-between">
+                    <small class="text-muted"><i class="fa-solid fa-circle-check text-success me-1"></i> Model Test Accuracy</small>
+                    <span class="badge bg-success font-monospace fs-6">{{ accuracy }}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Output / Result Column -->
+    <div class="col-lg-7">
+        {% if result %}
+        <div class="card shadow border-0 rounded-3 mb-4">
+            <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+                <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-square-poll-vertical me-2 text-info"></i>Prediction Analysis Result</h5>
+                <span class="badge bg-dark">Model Score</span>
+            </div>
+
+            <div class="card-body p-4">
+                <!-- Low Confidence Warning Alert -->
+                {% if result.is_low_confidence %}
+                <div class="alert alert-warning border-warning border-2 shadow-sm d-flex align-items-center p-3 mb-4" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation fa-2x me-3 text-warning"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Attention Required</h6>
+                        <p class="mb-0 fw-semibold text-dark">{{ result.low_confidence_message }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Primary Prediction Result Box -->
+                <div class="text-center p-4 rounded-3 mb-4 {% if result.need_attention %}bg-danger bg-opacity-10 border border-danger border-2{% else %}bg-success bg-opacity-10 border border-success border-2{% endif %}">
+                    <small class="text-uppercase tracking-wider fw-bold text-muted d-block mb-1">Prediction Target Output</small>
+                    <h2 class="fw-bold mb-2 {% if result.need_attention %}text-danger{% else %}text-success{% endif %}">
+                        <i class="fa-solid {% if result.need_attention %}fa-triangle-exclamation{% else %}fa-circle-check{% endif %} me-2"></i>
+                        {{ result.label }}
+                    </h2>
+                    <p class="text-muted mb-0">
+                        {% if result.need_attention %}
+                        This fault pattern has a high probability of exceeding normal repair time thresholds or causing safety hazards.
+                        {% else %}
+                        Standard repair workflow anticipated. Routine assignment suggested.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Confidence Score Meter -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-semibold text-dark">Prediction Confidence Score</span>
+                        <span class="fw-bold font-monospace fs-5 text-primary">{{ result.confidence }}%</span>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                        <div class="progress-bar {% if result.is_low_confidence %}bg-warning{% elif result.confidence >= 80 %}bg-success{% else %}bg-info{% endif %} progress-bar-striped progress-bar-animated"
+                             role="progressbar" 
+                             style="width: {{ result.confidence }}%;" 
+                             aria-valuenow="{{ result.confidence }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                        </div>
+                    </div>
+                    <small class="text-muted d-block mt-1">
+                        Probability Breakdown: Yes ({{ result.probability_yes }}%) | No ({{ result.probability_no }}%)
+                    </small>
+                </div>
+
+                <!-- Feature Driver Breakdown -->
+                <div class="p-3 bg-light rounded-3 border">
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-list-check me-2"></i>Feature Drivers Evaluated</h6>
+                    <ul class="list-unstyled mb-0 small text-secondary">
+                        <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Ward Category: <strong>{{ form_data.ward }}</strong></li>
+                        <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Fault Type: <strong>{{ form_data.fault_type }}</strong></li>
+                        <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Pole ID: <strong>{{ form_data.pole_id }}</strong> (Historical Reports: {{ result.historical_pole_complaints }})</li>
+                        <li><i class="fa-solid fa-check text-success me-2"></i>Reported Date: <strong>{{ form_data.reported_date }}</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Placeholder Empty State -->
+        <div class="card shadow border-0 rounded-3 h-100 d-flex align-items-center justify-content-center p-5 text-center text-muted">
+            <i class="fa-solid fa-brain fa-4x mb-3 text-secondary"></i>
+            <h4>Ready for ML Evaluation</h4>
+            <p style="max-width: 400px;">Fill in the complaint parameters on the left and click <strong>Calculate ML Prediction</strong> to evaluate failure risk.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

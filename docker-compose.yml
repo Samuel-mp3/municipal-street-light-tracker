@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: municipal_street_light_tracker
+    ports:
+      - "5000:5000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-municipal_street_light_secret_key_2026_super_secure}
+      - FLASK_DEBUG=${FLASK_DEBUG:-False}
+      - DATABASE_PATH=/app/data/street_lights.db
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

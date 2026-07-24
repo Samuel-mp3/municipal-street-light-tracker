@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Complaint {{ complaint.fault_id }}{% endblock %}
+{% block header_title %}Fault Details - {{ complaint.fault_id }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+    <!-- Complaint Details Column -->
+    <div class="col-lg-8">
+        <div class="card shadow border-0 rounded-3 mb-4">
+            <div class="card-header bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-file-lines me-2 text-warning"></i>Complaint Dossier: {{ complaint.fault_id }}
+                </h5>
+                <span class="badge bg-secondary font-monospace">{{ complaint.pole_id }}</span>
+            </div>
+
+            <div class="card-body p-4">
+                {% if is_edit %}
+                <!-- Edit Form -->
+                <form method="POST" action="{{ url_for('complaints.edit_complaint', complaint_id=complaint.id) }}">
+                    <h6 class="fw-bold text-primary mb-3"><i class="fa-solid fa-pen-to-square me-2"></i>Update Complaint Record</h6>
+                    
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Ward</label>
+                            <select class="form-select" name="ward" required>
+                                {% for w in wards %}
+                                <option value="{{ w }}" {% if complaint.ward == w %}selected{% endif %}>{{ w }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Street</label>
+                            <input type="text" class="form-control" name="street" value="{{ complaint.street }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Fault Category</label>
+                            <select class="form-select" name="fault_type" required>
+                                {% for ft in fault_types %}
+                                <option value="{{ ft }}" {% if complaint.fault_type == ft %}selected{% endif %}>{{ ft }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status</label>
+                            <select class="form-select" name="status" required>
+                                {% for st in statuses %}
+                                <option value="{{ st }}" {% if complaint.status == st %}selected{% endif %}>{{ st }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Repaired Date</label>
+                            <input type="date" class="form-control" name="repaired_date" value="{{ complaint.repaired_date or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+                        <a href="{{ url_for('complaints.complaint_details', complaint_id=complaint.id) }}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary fw-bold">Save Changes</button>
+                    </div>
+                </form>
+                {% else %}
+                <!-- Read Only View -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Fault Identifier</small>
+                            <span class="fs-5 fw-bold text-dark font-monospace">{{ complaint.fault_id }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Pole ID & Repeat History</small>
+                            <span class="fs-5 fw-bold text-dark font-monospace me-2">{{ complaint.pole_id }}</span>
+                            {% if pole_history_count > 1 %}
+                            <span class="badge bg-danger"><i class="fa-solid fa-repeat me-1"></i>Reported {{ pole_history_count }} Times</span>
+                            {% else %}
+                            <span class="badge bg-success">First Report</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Municipal Location</small>
+                            <div class="fw-bold text-dark fs-6">{{ complaint.street }}</div>
+                            <small class="text-primary fw-semibold"><i class="fa-solid fa-map-pin me-1"></i>{{ complaint.ward }}</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Fault Category & Priority</small>
+                            <div class="fw-bold text-dark fs-6">{{ complaint.fault_type }}</div>
+                            <span class="badge {% if complaint.priority == 'Critical' %}bg-danger{% elif complaint.priority == 'High' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                {{ complaint.priority or 'Medium' }} Priority
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Reported Date</small>
+                            <span class="fw-bold text-dark">{{ complaint.reported_date }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Current Status</small>
+                            {% if complaint.status == 'Repaired' %}
+                                <span class="badge bg-success fs-6"><i class="fa-solid fa-check me-1"></i>Repaired</span>
+                            {% elif complaint.status == 'In Progress' %}
+                                <span class="badge bg-info text-dark fs-6"><i class="fa-solid fa-spinner me-1"></i>In Progress</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark fs-6"><i class="fa-solid fa-clock me-1"></i>Pending</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <small class="text-muted text-uppercase fw-semibold d-block">Repaired Date</small>
+                            <span class="fw-bold text-dark">{{ complaint.repaired_date or 'Not Yet Repaired' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Derived Figure Display Box -->
+                <div class="card bg-primary bg-opacity-10 border-primary border-opacity-25 rounded-3 mb-4">
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold text-primary mb-1">
+                            <i class="fa-solid fa-calculator me-2"></i>Derived Metric: Server Calculated Pending Days
+                        </h6>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div>
+                                <span class="display-6 fw-bold text-dark me-2">{{ complaint.pending_days }}</span>
+                                <span class="text-muted fw-semibold">Days Elapsed</span>
+                            </div>
+                            <small class="text-muted style-italic max-w-50">
+                                Calculated on server as: <code>{{ complaint.repaired_date or 'Current Date' }} - {{ complaint.reported_date }}</code>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Footer -->
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <a href="{{ url_for('complaints.list_complaints') }}" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to Register
+                    </a>
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('complaints.edit_complaint', complaint_id=complaint.id) }}" class="btn btn-primary">
+                            <i class="fa-solid fa-pen-to-square me-1"></i> Edit Status
+                        </a>
+                        <form method="POST" action="{{ url_for('complaints.delete_complaint', complaint_id=complaint.id) }}" onsubmit="return confirm('Delete this record?');">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash me-1"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

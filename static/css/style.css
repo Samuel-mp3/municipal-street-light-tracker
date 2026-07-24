@@ -1,0 +1,139 @@
+/* Municipal Street Light Tracker - Civic Design System */
+
+:root {
+    --primary-color: #1e3a8a; /* Deep Civic Blue */
+    --secondary-color: #475569; /* Slate Gray */
+    --accent-warning: #f59e0b; /* Amber Alert */
+    --accent-success: #10b981; /* Emerald Green */
+    --accent-danger: #ef4444; /* Alert Red */
+    --sidebar-width: 260px;
+    --border-radius: 0.75rem;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    background-color: #f8fafc;
+}
+
+/* Sidebar Navigation */
+#wrapper {
+    overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: var(--sidebar-width);
+    margin-left: 0;
+    transition: margin 0.25s ease-out;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+.sidebar-heading {
+    letter-spacing: 0.5px;
+}
+
+.list-group-item {
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent !important;
+}
+
+.list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #38bdf8 !important;
+    border-left-color: #38bdf8 !important;
+}
+
+.active-link {
+    background-color: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    border-left-color: #38bdf8 !important;
+    font-weight: 600;
+}
+
+/* Metric Cards */
+.card-metric {
+    border-radius: var(--border-radius);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-metric:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.metric-icon-bg {
+    opacity: 0.25;
+    transition: opacity 0.2s ease;
+}
+
+.card-metric:hover .metric-icon-bg {
+    opacity: 0.4;
+}
+
+/* Glassmorphism for Login Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tables */
+.table thead th {
+    font-size: 0.825rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+/* Badges */
+.badge {
+    padding: 0.4em 0.75em;
+    font-weight: 600;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Print Friendly Overrides */
+@media print {
+    #sidebar-wrapper, .navbar, .btn, .nav-pills {
+        display: none !important;
+    }
+    #page-content-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
