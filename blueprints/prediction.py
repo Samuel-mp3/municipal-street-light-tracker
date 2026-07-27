@@ -87,15 +87,24 @@ def predict():
                 probabilities = clf.predict_proba(X_sample)[0]
                 confidence = float(np.max(probabilities) * 100)
                 
-                # Threshold for low confidence warning (65%)
-                is_low_confidence = (confidence < 65.0)
+                # Cut-off threshold below which model abstains from guessing (Change 2)
+                CONFIDENCE_CUTOFF = 65.0
+                is_abstained = (confidence < CONFIDENCE_CUTOFF)
+                
+                if is_abstained:
+                    label_text = "I am not sure — Set Aside for Human Verification"
+                elif prediction_class == 1:
+                    label_text = "YES — Needs Immediate Attention"
+                else:
+                    label_text = "NO — Standard Repair Priority"
                 
                 result = {
-                    'need_attention': bool(prediction_class == 1),
-                    'label': "YES - Needs Immediate Attention" if prediction_class == 1 else "NO - Standard Repair Priority",
+                    'need_attention': bool(prediction_class == 1) if not is_abstained else None,
+                    'label': label_text,
                     'confidence': round(confidence, 1),
-                    'is_low_confidence': is_low_confidence,
-                    'low_confidence_message': "Prediction confidence is low. Manual verification recommended." if is_low_confidence else None,
+                    'is_abstained': is_abstained,
+                    'cutoff_threshold': CONFIDENCE_CUTOFF,
+                    'abstain_message': f"Confidence score ({confidence:.1f}%) is below the {CONFIDENCE_CUTOFF:.1f}% cut-off threshold. The model abstained from guessing and set this borderline case aside for human expert review." if is_abstained else None,
                     'probability_yes': round(probabilities[1] * 100, 1) if len(probabilities) > 1 else 0.0,
                     'probability_no': round(probabilities[0] * 100, 1) if len(probabilities) > 0 else 0.0,
                     'historical_pole_complaints': historical_pole_complaints
@@ -158,12 +167,22 @@ def api_predict():
     prediction_class = clf.predict(X_sample)[0]
     probabilities = clf.predict_proba(X_sample)[0]
     confidence = float(np.max(probabilities) * 100)
-    is_low_confidence = (confidence < 65.0)
+    
+    CONFIDENCE_CUTOFF = 65.0
+    is_abstained = (confidence < CONFIDENCE_CUTOFF)
+    
+    if is_abstained:
+        label_text = "I am not sure — Set Aside for Human Verification"
+    elif prediction_class == 1:
+        label_text = "YES — Needs Immediate Attention"
+    else:
+        label_text = "NO — Standard Repair Priority"
     
     return jsonify({
-        'need_attention': int(prediction_class),
-        'label': "YES - Immediate Attention" if prediction_class == 1 else "NO - Standard Priority",
+        'need_attention': int(prediction_class) if not is_abstained else None,
+        'label': label_text,
         'confidence': round(confidence, 1),
-        'is_low_confidence': is_low_confidence,
-        'message': "Prediction confidence is low. Manual verification recommended." if is_low_confidence else "High confidence prediction."
+        'is_abstained': is_abstained,
+        'cutoff_threshold': CONFIDENCE_CUTOFF,
+        'message': f"Confidence score ({confidence:.1f}%) is below the {CONFIDENCE_CUTOFF:.1f}% cut-off. Set aside for human verification." if is_abstained else "High confidence prediction."
     })

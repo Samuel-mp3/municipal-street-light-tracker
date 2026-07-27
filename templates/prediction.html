@@ -70,30 +70,34 @@
         <div class="card shadow border-0 rounded-3 mb-4">
             <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
                 <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-square-poll-vertical me-2 text-info"></i>Prediction Analysis Result</h5>
-                <span class="badge bg-dark">Model Score</span>
+                <span class="badge {% if result.is_abstained %}bg-warning text-dark{% else %}bg-dark{% endif %}">
+                    {% if result.is_abstained %}Abstained Below Cut-Off{% else %}Model Score{% endif %}
+                </span>
             </div>
 
             <div class="card-body p-4">
-                <!-- Low Confidence Warning Alert -->
-                {% if result.is_low_confidence %}
+                <!-- Abstained / Borderline Case Alert -->
+                {% if result.is_abstained %}
                 <div class="alert alert-warning border-warning border-2 shadow-sm d-flex align-items-center p-3 mb-4" role="alert">
-                    <i class="fa-solid fa-triangle-exclamation fa-2x me-3 text-warning"></i>
+                    <i class="fa-solid fa-user-gear fa-2x me-3 text-warning"></i>
                     <div>
-                        <h6 class="fw-bold mb-1">Attention Required</h6>
-                        <p class="mb-0 fw-semibold text-dark">{{ result.low_confidence_message }}</p>
+                        <h6 class="fw-bold mb-1"><i class="fa-solid fa-hand me-1"></i>Borderline Case Set Aside for Human Review</h6>
+                        <p class="mb-0 fw-semibold text-dark">{{ result.abstain_message }}</p>
                     </div>
                 </div>
                 {% endif %}
 
                 <!-- Primary Prediction Result Box -->
-                <div class="text-center p-4 rounded-3 mb-4 {% if result.need_attention %}bg-danger bg-opacity-10 border border-danger border-2{% else %}bg-success bg-opacity-10 border border-success border-2{% endif %}">
+                <div class="text-center p-4 rounded-3 mb-4 {% if result.is_abstained %}bg-warning bg-opacity-10 border border-warning border-2{% elif result.need_attention %}bg-danger bg-opacity-10 border border-danger border-2{% else %}bg-success bg-opacity-10 border border-success border-2{% endif %}">
                     <small class="text-uppercase tracking-wider fw-bold text-muted d-block mb-1">Prediction Target Output</small>
-                    <h2 class="fw-bold mb-2 {% if result.need_attention %}text-danger{% else %}text-success{% endif %}">
-                        <i class="fa-solid {% if result.need_attention %}fa-triangle-exclamation{% else %}fa-circle-check{% endif %} me-2"></i>
+                    <h2 class="fw-bold mb-2 {% if result.is_abstained %}text-warning-emphasis{% elif result.need_attention %}text-danger{% else %}text-success{% endif %}">
+                        <i class="fa-solid {% if result.is_abstained %}fa-circle-question{% elif result.need_attention %}fa-triangle-exclamation{% else %}fa-circle-check{% endif %} me-2"></i>
                         {{ result.label }}
                     </h2>
                     <p class="text-muted mb-0">
-                        {% if result.need_attention %}
+                        {% if result.is_abstained %}
+                        Confidence is below the <strong>65.0% cut-off</strong>. The model abstained from guessing and routed this case to human municipal section engineers for manual decision.
+                        {% elif result.need_attention %}
                         This fault pattern has a high probability of exceeding normal repair time thresholds or causing safety hazards.
                         {% else %}
                         Standard repair workflow anticipated. Routine assignment suggested.
@@ -104,16 +108,20 @@
                 <!-- Confidence Score Meter -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-semibold text-dark">Prediction Confidence Score</span>
-                        <span class="fw-bold font-monospace fs-5 text-primary">{{ result.confidence }}%</span>
+                        <span class="fw-semibold text-dark">
+                            Prediction Confidence Score
+                            <span class="badge bg-light text-dark border ms-1">Cut-Off Threshold: {{ result.cutoff_threshold }}%</span>
+                        </span>
+                        <span class="fw-bold font-monospace fs-5 {% if result.is_abstained %}text-warning-emphasis{% else %}text-primary{% endif %}">{{ result.confidence }}%</span>
                     </div>
-                    <div class="progress" style="height: 12px;">
-                        <div class="progress-bar {% if result.is_low_confidence %}bg-warning{% elif result.confidence >= 80 %}bg-success{% else %}bg-info{% endif %} progress-bar-striped progress-bar-animated"
+                    <div class="progress" style="height: 14px;">
+                        <div class="progress-bar {% if result.is_abstained %}bg-warning text-dark progress-bar-striped{% elif result.confidence >= 80 %}bg-success{% else %}bg-info{% endif %}"
                              role="progressbar" 
                              style="width: {{ result.confidence }}%;" 
                              aria-valuenow="{{ result.confidence }}" 
                              aria-valuemin="0" 
                              aria-valuemax="100">
+                             {% if result.is_abstained %}<small class="fw-bold" style="font-size: 0.7rem;">ABSTAINED (&lt; 65%)</small>{% endif %}
                         </div>
                     </div>
                     <small class="text-muted d-block mt-1">

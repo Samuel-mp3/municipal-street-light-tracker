@@ -105,3 +105,8 @@ FLT-2026-1103,POL-197,Ward 7,Temple Road,2026-07-22,Bulb Replacement,Pending,,0
 FLT-2026-1104,POL-198,Ward 8,Industrial Area,2026-07-23,Wiring Damage,Pending,,1
 FLT-2026-1105,POL-199,Ward 9,Anna Salai,2026-07-23,Switch Failure,Pending,,0
 FLT-2026-1106,POL-200,Ward 10,Lake View Road,2026-07-24,Pole Structural Damage,Pending,,1
+FLT-2026-1107,POL-201,Ward 1,Solar Drive,2026-07-25,Solar Panel Breakdown,Repaired,2026-07-27,0
+FLT-2026-1108,POL-202,Ward 3,Green Energy Way,2026-07-25,Solar Panel Breakdown,Pending,,1
+FLT-2026-1109,POL-203,Ward 5,Eco Street,2026-07-26,Solar Panel Breakdown,In Progress,,1
+FLT-2026-1110,POL-204,Ward 8,Industrial Solar Hub,2026-07-26,Solar Panel Breakdown,Pending,,1
+FLT-2026-1111,POL-205,Ward 10,Solar Feeder Rd,2026-07-27,Solar Panel Breakdown,Repaired,2026-07-27,0

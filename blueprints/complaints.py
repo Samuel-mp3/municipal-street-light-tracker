@@ -14,7 +14,8 @@ FAULT_TYPES = [
     'Transformer Failure',
     'Pole Structural Damage',
     'Switch Failure',
-    'Power Surge'
+    'Power Surge',
+    'Solar Panel Breakdown'
 ]
 STATUSES = ['Pending', 'In Progress', 'Repaired', 'Rejected']
 

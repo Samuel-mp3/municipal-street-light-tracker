@@ -15,6 +15,20 @@
 
 ---
 
+## 🌟 Level 2 On-Spot Assessment Changes (Completed)
+
+### Change 1 — Added New Category / Class (8 Marks)
+- **New Category Added**: `Solar Panel Breakdown` (7th Fault Category class added to `data/dataset.csv`).
+- **Pipeline Retraining**: Re-ran preprocessing, `LabelEncoder` fitting, and model retraining without breaking.
+- **Model Test Accuracy Achieved**: **95.65%**
+
+### Change 2 — Model Abstention & Confidence Cut-Off (12 Marks)
+- **Cut-Off Threshold**: Set at **65.0%** confidence.
+- **Abstention Mechanism**: When prediction probability is below the 65.0% cut-off, the model says **"I am not sure — Set Aside for Human Verification"** instead of guessing.
+- **Borderline Case Handling**: Borderline inputs are automatically set aside with an Amber UI badge and warning banner for human expert verification.
+
+---
+
 ## Installation & Setup Instructions
 
 ### Prerequisites
